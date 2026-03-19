@@ -13,7 +13,7 @@ let peer;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-const socket = io('http://localhost:5000')
+const socket = io('https://video-call-9c7a.onrender.com')//http://localhost:5000
 socket.emit('join-room', roomId);
 
 // accessing the video and audiio of the system 
