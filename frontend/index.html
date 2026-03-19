@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Media Test</title>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<style>
+    #control{
+     display: flex;
+     gap: 10px;
+
+    }
+    button{
+        background-color: blueviolet;
+        color: white;
+        width: 200px;
+        height: 30px;
+    }
+</style>
+<body>
+
+  <h2>My Camera</h2>
+  <video id="localVideo" autoplay muted playsinline></video>
+  <video id="remoteVideo" autoplay></video>
+
+  <div id="control">
+  <button id="btn1">turn off mic</button>
+  <button id="btn2">turn off video</button>
+  </div>
+
+  <button style="margin-top: 20px;" id="start">Start call</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
