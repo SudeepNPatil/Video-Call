@@ -5,6 +5,7 @@ const remoteVideo = document.getElementById('remoteVideo');
 const micbtn = document.getElementById('btn1')
 const videobtn = document.getElementById('btn2')
 const start = document.getElementById('start');
+const end = document.getElementById('end');
 
 let audioTracks;
 let videoTracks
@@ -158,6 +159,11 @@ videobtn.addEventListener('click',()=>{
         videobtn.textContent = 'turn off video'
     }
     
+})
+
+end.addEventListener('click',()=>{
+    socket.emit('disconnect',{roomId});
+    alert('Call ended you can close the tab.')
 })
 
 })
