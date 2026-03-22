@@ -16,12 +16,33 @@
         width: 200px;
         height: 30px;
     }
+    #local{
+      width: auto;
+      height: auto;
+      border: 10px;
+      border-color: blue;
+    }
+    #remote{
+      width: auto;
+      height: auto;
+      border: 10px;
+      border-color: aqua;
+    }
+    #main{
+      display: block;
+    }
 </style>
 <body>
 
   <h2>My Camera</h2>
+  <div id="main">
+    <div id="local">
   <video id="localVideo" autoplay muted playsinline></video>
+  </div>
+  <div id="remote">
   <video id="remoteVideo" autoplay></video>
+  </div>
+  </div>
 
   <div id="control">
   <button id="btn1">turn off mic</button>
