@@ -1,5 +1,9 @@
 
-const roomId = 'room123'
+const searchString = window.location.search;
+const urlparam = new URLSearchParams(searchString);
+const name = urlparam.get('name');
+const roomId = urlparam.get('roomId')
+const call= urlparam.get('call')
 const videoElement = document.getElementById('localVideo');
 const remoteVideo = document.getElementById('remoteVideo');
 const micbtn = document.getElementById('btn1')
@@ -7,14 +11,15 @@ const videobtn = document.getElementById('btn2')
 const start = document.getElementById('start');
 const end = document.getElementById('end');
 
+const url = config.API_URL;
+
 let audioTracks;
 let videoTracks
 let stream;
 let peer;
 
-document.addEventListener('DOMContentLoaded', () => {
 
-const socket = io('https://video-call-9c7a.onrender.com')//http://localhost:5000
+const socket = io(url)
 socket.emit('join-room', roomId);
 
 // accessing the video and audiio of the system 
@@ -30,6 +35,17 @@ async function startmedia() {
 
         videoElement.srcObject = stream;
 
+        if (call === 'create') {
+            const myevent = new CustomEvent('videocall', {
+                detail: { roomId, name }
+            });
+            window.dispatchEvent(myevent);
+        } else {
+            //alert('Waiting for the host to start the call...');
+            console.log('Waiting for the host to start the call...');
+            socket.emit('ready', roomId);
+        }
+
     }catch(err){
         console.log("error in assecing media",err);
           stream = new MediaStream();
@@ -38,7 +54,7 @@ async function startmedia() {
 startmedia();
 
 
-start.addEventListener('click',async ()=>{
+window.addEventListener('videocall',async ()=>{
 
     videoTracks = stream.getVideoTracks();
     audioTracks = stream.getAudioTracks();
@@ -77,10 +93,11 @@ start.addEventListener('click',async ()=>{
     console.log("OFFER:", offer);
     await peer.setLocalDescription(offer);
 
-  /*   socket.emit('join-room',roomId); */
-    socket.emit('offer',{roomId,offer});
+  //   socket.emit('join-room',roomId); 
+   socket.emit('offer',{roomId,offer});
 
 })
+
 
     socket.on('answer', async ({ answer }) => {
     await peer.setRemoteDescription(new RTCSessionDescription(answer));
@@ -91,9 +108,10 @@ socket.on('ice-candidate', async ({ candidate }) => {
         await peer.addIceCandidate(new RTCIceCandidate(candidate));
     }
 });
-    
 
-socket.on('offer', async ({ offer }) => {
+
+
+    socket.on('offer', async ({ offer }) => {
     console.log("📥 Offer received");
 
     peer = new RTCPeerConnection({
@@ -136,6 +154,7 @@ socket.on('offer', async ({ offer }) => {
 
 });
 
+
 // mic on off
 micbtn.addEventListener('click',()=>{
     
@@ -147,7 +166,7 @@ micbtn.addEventListener('click',()=>{
         micbtn.textContent = 'turn off mic'
     }
     
-})
+});
 // video on off 
 videobtn.addEventListener('click',()=>{
     
@@ -159,11 +178,9 @@ videobtn.addEventListener('click',()=>{
         videobtn.textContent = 'turn off video'
     }
     
-})
+});
 
 end.addEventListener('click',()=>{
     socket.emit('disconnect',{roomId});
     alert('Call ended you can close the tab.')
-})
-
-})
+});

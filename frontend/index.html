@@ -1,57 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Media Test</title>
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Video Call App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<style>
-    #control{
-     display: flex;
-     gap: 10px;
-
-    }
-    button{
-        background-color: blueviolet;
-        color: white;
-        width: 200px;
-        height: 30px;
-    }
-    #local{
-      width: auto;
-      height: auto;
-      border: 10px;
-      border-color: blue;
-    }
-    #remote{
-      width: auto;
-      height: auto;
-      border: 10px;
-      border-color: aqua;
-    }
-    #main{
-      display: block;
-    }
-</style>
 <body>
 
-  <h2>My Camera</h2>
-  <div id="main">
-    <div id="local">
-  <video id="localVideo" autoplay muted playsinline></video>
-  </div>
-  <div id="remote">
-  <video id="remoteVideo" autoplay></video>
-  </div>
+  <div class="container">
+    <div class="card">
+      <h1>Video Call</h1>
+      <p class="subtitle">Connect instantly with anyone</p>
+
+      <input 
+        type="text" 
+        id="name" 
+        placeholder="Enter your name"
+      />
+
+      <input 
+        type="text" 
+        id="room" 
+        placeholder="Enter Room ID (for joining)"
+      />
+
+      <div class="buttons">
+        <button onclick="joinCall()">Join Call</button>
+        <button class="create" onclick="createCall()">Create New Call</button>
+      </div>
+    </div>
   </div>
 
-  <div id="control">
-  <button id="btn1">turn off mic</button>
-  <button id="btn2">turn off video</button>
-  </div>
+  <script>
+    function joinCall() {
+      const name = document.getElementById("name").value;
+      const room = document.getElementById("room").value;
 
-  <button style="margin-top: 20px;" id="start">Start call</button>
-  <button style="margin-top: 20px;" id="end">End Call</button>
+      if (!name || !room) {
+        alert("Please enter name and room ID");
+        return;
+      }
 
-  <script src="script.js"></script>
+      // redirect to your video page
+      window.location.href = `video.html?name=${name}&roomId=${room}&call=join`;
+    }
+
+    function createCall() {
+      const name = document.getElementById("name").value;
+
+      if (!name) {
+        alert("Please enter your name");
+        return;
+      }
+
+      const roomId = Math.random().toString(36).substring(2, 6);
+
+      alert(`Share Room Id to connect, Here is the room id: ${roomId}`);
+
+      // redirect
+      window.location.href = `video.html?name=${name}&roomId=${roomId}&call=create`;
+    }
+  </script>
+
 </body>
 </html>
