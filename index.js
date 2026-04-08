@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+let offers=[];
 
 const app = express();
 app.use(cors());
@@ -23,9 +24,17 @@ io.on('connection', (socket) => {
     console.log(` ${socket.id} joined room ${roomId}`);
   });
 
+  socket.on('ready', (roomId) => {
+    console.log("User ready:", socket.id);
+
+    if (offers[roomId]) {
+        socket.emit('offer', { offer: offers[roomId] });
+    }
+});
+
   socket.on('offer',({roomId,offer})=>{
     console.log("offer recieved");
-
+    offers[roomId] = offer;
     socket.to(roomId).emit('offer',{offer});
   });
 
@@ -36,7 +45,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('ice-candidate',({roomId,candidate})=>{
-    console.log("ICE condidates recieved",candidate,"from",roomId);
+    console.log("ICE condidates recieved from",roomId);
 
     socket.to(roomId).emit('ice-candidate',{candidate});
   });
