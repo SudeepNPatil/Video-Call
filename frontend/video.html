@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Media Test</title>
+  <title>Video Call</title>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script src="env.js"></script>
 </head>
@@ -30,7 +30,9 @@
       border-color: aqua;
     }
     #main{
-      display: block;
+      display: flex;
+      gap: 20px;
+      
     }
 </style>
 <body>
@@ -38,11 +40,11 @@
   <h2>My Camera</h2>
   <div id="main">
     <div id="local">
-  <video id="localVideo" autoplay muted playsinline></video>
-  </div>
-  <div id="remote">
-  <video id="remoteVideo" autoplay></video>
-  </div>
+      <video id="localVideo" autoplay muted playsinline></video>
+    </div>
+    <div id="remote">
+      <video id="remoteVideo" autoplay></video>
+    </div>
   </div>
 
   <div id="control">

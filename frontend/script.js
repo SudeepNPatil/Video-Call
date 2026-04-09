@@ -183,4 +183,5 @@ videobtn.addEventListener('click',()=>{
 end.addEventListener('click',()=>{
     socket.emit('disconnect',{roomId});
     alert('Call ended you can close the tab.')
+     window.location.href = `index.html`;
 });
