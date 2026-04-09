@@ -8,7 +8,7 @@ const videoElement = document.getElementById('localVideo');
 const remoteVideo = document.getElementById('remoteVideo');
 const micbtn = document.getElementById('btn1')
 const videobtn = document.getElementById('btn2')
-const start = document.getElementById('start');
+/* const start = document.getElementById('start'); */
 const end = document.getElementById('end');
 
 const url = config.API_URL;
